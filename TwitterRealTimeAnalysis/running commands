@@ -1,0 +1,36 @@
+--1. Start Flume
+flume-ng agent --conf /etc/flume-ng/conf \
+--conf-file /home/cloudera/Desktop/FinalProject/Flume/flume_twitter_to_kafka.conf \
+--name KafkaAgent \
+--plugins-path /home/cloudera/Desktop/FinalProject/Flume/ \
+-Dflume.root.logger=INFO,console
+
+--Start Zookeeper server
+cd /opt/kafka_2.12-2.4.1/
+bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+
+--Start Kafka server
+cd /opt/kafka_2.12-2.4.1/
+bin/kafka-server-start.sh config/server.properties
+
+--Start Kafka producer
+cd /opt/kafka_2.12-2.4.1/
+bin/kafka-topics.sh --zookeeper quickstart.cloudera:2181 --create --topic twitter_stream --partitions 1 --replication-factor 1
+
+
+--Start Kafka consumer
+cd /opt/kafka_2.12-2.4.1/
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic twitter_stream --from-beginning
+
+
+--2. Start Dashboards
+cd /home/cloudera/Desktop/FinalProject/Dashboard/TwitterAnalysisDashboard
+flask run -p 5001
+
+--3. Start Spark streaming
+cd /home/cloudera/Desktop/FinalProject/SparkStreaming/TwitterStreamAnalysis
+
+export SPARK_HOME=/usr/local/spark/
+export SPARK_LOCAL_IP=127.0.0.1
+
+spark-submit --master 'local[3]' --jars /home/cloudera/Desktop/FinalProject/SparkStreaming/jars/ trending_topics_sentiment.py twitter_stream

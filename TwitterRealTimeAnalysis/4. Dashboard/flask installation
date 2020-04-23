@@ -1,0 +1,53 @@
+[2:58 PM] Muhammad Luqman
+    Van Nhat Khong, Wina Tesfamariam Merhazion
+
+
+
+
+For Python..........................................................................................
+https://www.rosehosting.com/blog/how-to-install-python-3-6-4-on-centos-7/
+python3 -V
+pip3 -V
+
+
+
+wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tar.xz
+
+
+tar -xJf Python-3.6.4.tar.xz
+
+
+cd Python-3.6.4
+
+
+./configure
+
+
+make
+
+
+sudo make install
+
+
+
+For Flask..........................................................................................
+
+
+https://linuxize.com/post/how-to-install-flask-on-centos-7/
+
+
+
+cd Desktop/
+cd pybox/
+python3 -m venv venv
+source venv/bin/activate
+pip install Flask
+
+
+flask --version
+
+
+
+
+
+
